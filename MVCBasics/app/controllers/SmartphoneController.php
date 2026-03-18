@@ -1,4 +1,5 @@
 <?php
+//  Efe Dilekci
 
 class SmartphoneController extends BaseController
 {
@@ -75,5 +76,47 @@ class SmartphoneController extends BaseController
         }
     
         $this->view('smartphone/create', $data);
+    }
+    public function update($id = NULL)
+    {
+        $data = [
+            'title'   => 'Wijzig smartphone',
+            'display' => 'none',
+            'message' => ''
+        ];
+    
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (empty($_POST['merk']) ||
+                empty($_POST['model']) ||
+                empty($_POST['prijs']) ||
+                empty($_POST['geheugen']) ||
+                empty($_POST['besturingssysteem']) ||
+                empty($_POST['schermgrootte']) ||
+                empty($_POST['releasedatum']) ||
+                empty($_POST['megapixels'])) {
+    
+                // Laat de <div> tag met terugkoppeling naar de gebruiker zien
+                $data['display'] = 'flex';
+                $data['message'] = 'Vul alle velden in';
+            } else {
+                // Hier komt de code om de gewijzigde data op te slaan
+                $this->smartphoneModel->update($_POST);
+
+                header('Refresh: 3; URL=' . URLROOT . '/SmartphoneController/index');
+                $this->index('flex', 'De gegevens zijn gewijzigd');
+                return;
+            }
+        }
+
+        // Id uit URL (GET) of uit formulier (POST bij validatiefout)
+        $smartphoneId = $id ?? $_POST['id'] ?? null;
+        $data['smartphone'] = $this->smartphoneModel->getSmartphoneById($smartphoneId);
+
+        if ($data['smartphone'] === false) {
+            $this->index('flex', 'Smartphone niet gevonden');
+            return;
+        }
+
+        $this->view('smartphone/update', $data);
     }
 }   

@@ -1,4 +1,5 @@
 <?php require_once APPROOT . '/views/includes/header.php'; ?>
+<!--  Efe Dilekci -->
 
 <div class="container">
     <div class="row mt-3 d-flex justify-content-center">
@@ -40,6 +41,7 @@
                         <th>Releasedatum</th>
                         <th>MegaPixels</th>
                         <th>Verwijder</th>
+                        <th>Wijzig</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,6 +60,11 @@
                                 onclick="return confirm('Weet je zeker dat je dit record wilt verwijderen?');">
                                 <i class="bi bi-trash3-fill text-danger"></i>
                             </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="<?= URLROOT; ?>/SmartphoneController/update/<?= $smartphone->Id; ?>">
+                                    <i class="bi bi-pencil-fill text-success"></i>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
