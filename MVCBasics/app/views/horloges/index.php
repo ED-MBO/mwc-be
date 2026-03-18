@@ -37,6 +37,7 @@
             <th>Type</th>
             <th>Kenmerk</th>
             <th>Verwijder</th>
+            <th>Wijzig</th>
         </tr>
     </thead>
     <tbody>
@@ -52,6 +53,11 @@
                     <a href="<?= URLROOT; ?>/HorlogesController/delete/<?= $horloge->Id; ?>"
                         onclick="return confirm('Weet je zeker dat je dit record wilt verwijderen?');">
                         <i class="bi bi-trash3-fill text-danger"></i>
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a href="<?= URLROOT; ?>/HorlogesController/update/<?= $horloge->Id; ?>">
+                        <i class="bi bi-pencil-fill text-success"></i>
                     </a>
                 </td>
             </tr>

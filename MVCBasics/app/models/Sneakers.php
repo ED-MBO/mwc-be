@@ -75,4 +75,47 @@ class sneakers
 
         return $this->db->execute();
     }
+
+    public function getSneakerById($id)
+    {
+        $sql = 'SELECT  SNKR.Id
+                       ,SNKR.Merk
+                       ,SNKR.Model
+                       ,SNKR.Type
+                       ,SNKR.Prijs
+                       ,SNKR.Materiaal
+                       ,SNKR.Gewicht
+                       ,SNKR.Releasedatum
+                FROM    Sneakers as SNKR
+                WHERE   SNKR.Id = :id';
+
+        $this->db->query($sql);
+        $this->db->bind(':id', $id, PDO::PARAM_INT);
+
+        return $this->db->single();
+    }
+
+    public function update($data)
+    {
+        $sql = "UPDATE Sneakers SET Merk = :merk
+                                 ,Model = :model
+                                 ,Type = :type
+                                 ,Prijs = :prijs
+                                 ,Materiaal = :materiaal
+                                 ,Gewicht = :gewicht
+                                 ,Releasedatum = :releasedatum
+                WHERE Id = :id";
+
+        $this->db->query($sql);
+        $this->db->bind(':merk', $data['merk'], PDO::PARAM_STR);
+        $this->db->bind(':model', $data['model'], PDO::PARAM_STR);
+        $this->db->bind(':type', $data['type'], PDO::PARAM_STR);
+        $this->db->bind(':prijs', $data['prijs'], PDO::PARAM_INT);
+        $this->db->bind(':materiaal', $data['materiaal'], PDO::PARAM_STR);
+        $this->db->bind(':gewicht', $data['gewicht'], PDO::PARAM_INT);
+        $this->db->bind(':releasedatum', $data['releasedatum'], PDO::PARAM_STR);
+        $this->db->bind(':id', $data['id'], PDO::PARAM_INT);
+
+        return $this->db->execute();
+    }
 }

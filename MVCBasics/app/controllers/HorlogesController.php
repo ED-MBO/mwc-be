@@ -77,4 +77,45 @@ class HorlogesController extends BaseController
         $this->view('horloges/create', $data);
     }
 
+    public function update($id = null)
+    {
+        $data = [
+            'title'   => 'Wijzig horloge',
+            'display' => 'none',
+            'message' => ''
+        ];
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (empty($_POST['merk']) ||
+                empty($_POST['model']) ||
+                empty($_POST['prijs']) ||
+                empty($_POST['materiaal']) ||
+                empty($_POST['gewicht']) ||
+                empty($_POST['releasedatum']) ||
+                empty($_POST['waterdichtheid']) ||
+                empty($_POST['type']) ||
+                empty($_POST['uniekkenmerk'])) {
+
+                $data['display'] = 'flex';
+                $data['message'] = 'Vul alle velden in';
+            } else {
+                $this->horlogeModel->update($_POST);
+
+                header('Refresh: 3; URL=' . URLROOT . '/HorlogesController/index');
+                $this->index('flex', 'De gegevens zijn gewijzigd');
+                return;
+            }
+        }
+
+        $horlogeId = $id ?? $_POST['id'] ?? null;
+        $data['horloge'] = $this->horlogeModel->getHorlogeById($horlogeId);
+
+        if ($data['horloge'] === false) {
+            $this->index('flex', 'Horloge niet gevonden');
+            return;
+        }
+
+        $this->view('horloges/update', $data);
+    }
+
 }
