@@ -47,20 +47,62 @@ class SneakersController extends BaseController
         $data = [
             'title'   => 'Nieuwe sneaker toevoegen',
             'display' => 'none',
-            'message' => ''
+            'message' => '',
+            'errors'  => []
         ];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST['merk']) ||
-                empty($_POST['model']) ||
-                empty($_POST['type']) ||
-                empty($_POST['prijs']) ||
-                empty($_POST['materiaal']) ||
-                empty($_POST['gewicht']) ||
-                empty($_POST['releasedatum'])) {
+            $errors = [];
 
+            if (empty(trim($_POST['merk'] ?? ''))) {
+                $errors['merk'] = 'Voer een merk in';
+            } elseif (strlen($_POST['merk']) > 50) {
+                $errors['merk'] = 'Merk mag maximaal 50 tekens bevatten';
+            }
+
+            if (empty(trim($_POST['model'] ?? ''))) {
+                $errors['model'] = 'Voer een model in';
+            } elseif (strlen($_POST['model']) > 50) {
+                $errors['model'] = 'Model mag maximaal 50 tekens bevatten';
+            }
+
+            if (empty(trim($_POST['type'] ?? ''))) {
+                $errors['type'] = 'Voer een type in';
+            } elseif (strlen($_POST['type']) > 25) {
+                $errors['type'] = 'Type mag maximaal 25 tekens bevatten';
+            }
+
+            $prijsRaw = $_POST['prijs'] ?? '';
+            if ($prijsRaw === '') {
+                $errors['prijs'] = 'Voer een prijs in';
+            } elseif (!is_numeric($prijsRaw) || $prijsRaw < 0 || $prijsRaw > 9999.99) {
+                $errors['prijs'] = 'Voer een geldige prijs in (0 - 9999,99)';
+            }
+
+            if (empty(trim($_POST['materiaal'] ?? ''))) {
+                $errors['materiaal'] = 'Voer een materiaal in';
+            } elseif (strlen($_POST['materiaal']) > 25) {
+                $errors['materiaal'] = 'Materiaal mag maximaal 25 tekens bevatten';
+            }
+
+            $gewichtRaw = $_POST['gewicht'] ?? '';
+            if ($gewichtRaw === '') {
+                $errors['gewicht'] = 'Voer een gewicht in';
+            } elseif (!is_numeric($gewichtRaw) || $gewichtRaw < 0 || $gewichtRaw > 999.99) {
+                $errors['gewicht'] = 'Voer een geldig gewicht in (0 - 999,99)';
+            }
+
+            $releasedatumRaw = $_POST['releasedatum'] ?? '';
+            if ($releasedatumRaw === '') {
+                $errors['releasedatum'] = 'Voer een releasedatum in';
+            } elseif (!DateTime::createFromFormat('Y-m-d', $releasedatumRaw)) {
+                $errors['releasedatum'] = 'Voer een geldig datum in (jjjj-mm-dd)';
+            }
+
+            if (!empty($errors)) {
                 $data['display'] = 'flex';
-                $data['message'] = 'Vul alle velden in';
+                $data['message'] = 'Controleer de ingevoerde gegevens';
+                $data['errors'] = $errors;
             } else {
                 $data['display'] = 'flex';
                 $data['message'] = 'De gegevens zijn opgeslagen';
@@ -68,6 +110,7 @@ class SneakersController extends BaseController
                 $this->sneakerModel->create($_POST);
 
                 header('Refresh: 3; URL=' . URLROOT . '/SneakersController/index');
+                return;
             }
         }
 
@@ -79,20 +122,62 @@ class SneakersController extends BaseController
         $data = [
             'title'   => 'Wijzig sneaker',
             'display' => 'none',
-            'message' => ''
+            'message' => '',
+            'errors'  => []
         ];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST['merk']) ||
-                empty($_POST['model']) ||
-                empty($_POST['type']) ||
-                empty($_POST['prijs']) ||
-                empty($_POST['materiaal']) ||
-                empty($_POST['gewicht']) ||
-                empty($_POST['releasedatum'])) {
+            $errors = [];
 
+            if (empty(trim($_POST['merk'] ?? ''))) {
+                $errors['merk'] = 'Voer een merk in';
+            } elseif (strlen($_POST['merk']) > 50) {
+                $errors['merk'] = 'Merk mag maximaal 50 tekens bevatten';
+            }
+
+            if (empty(trim($_POST['model'] ?? ''))) {
+                $errors['model'] = 'Voer een model in';
+            } elseif (strlen($_POST['model']) > 50) {
+                $errors['model'] = 'Model mag maximaal 50 tekens bevatten';
+            }
+
+            if (empty(trim($_POST['type'] ?? ''))) {
+                $errors['type'] = 'Voer een type in';
+            } elseif (strlen($_POST['type']) > 25) {
+                $errors['type'] = 'Type mag maximaal 25 tekens bevatten';
+            }
+
+            $prijsRaw = $_POST['prijs'] ?? '';
+            if ($prijsRaw === '') {
+                $errors['prijs'] = 'Voer een prijs in';
+            } elseif (!is_numeric($prijsRaw) || $prijsRaw < 0 || $prijsRaw > 9999.99) {
+                $errors['prijs'] = 'Voer een geldige prijs in (0 - 9999,99)';
+            }
+
+            if (empty(trim($_POST['materiaal'] ?? ''))) {
+                $errors['materiaal'] = 'Voer een materiaal in';
+            } elseif (strlen($_POST['materiaal']) > 25) {
+                $errors['materiaal'] = 'Materiaal mag maximaal 25 tekens bevatten';
+            }
+
+            $gewichtRaw = $_POST['gewicht'] ?? '';
+            if ($gewichtRaw === '') {
+                $errors['gewicht'] = 'Voer een gewicht in';
+            } elseif (!is_numeric($gewichtRaw) || $gewichtRaw < 0 || $gewichtRaw > 999.99) {
+                $errors['gewicht'] = 'Voer een geldig gewicht in (0 - 999,99)';
+            }
+
+            $releasedatumRaw = $_POST['releasedatum'] ?? '';
+            if ($releasedatumRaw === '') {
+                $errors['releasedatum'] = 'Voer een releasedatum in';
+            } elseif (!DateTime::createFromFormat('Y-m-d', $releasedatumRaw)) {
+                $errors['releasedatum'] = 'Voer een geldig datum in (jjjj-mm-dd)';
+            }
+
+            if (!empty($errors)) {
                 $data['display'] = 'flex';
-                $data['message'] = 'Vul alle velden in';
+                $data['message'] = 'Controleer de ingevoerde gegevens';
+                $data['errors'] = $errors;
             } else {
                 $this->sneakerModel->update($_POST);
 

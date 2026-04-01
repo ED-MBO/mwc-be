@@ -125,4 +125,10 @@ public function update($data)
     return $this->db->execute();
 }
 
+// Alias voor opdrachten/varianten in de controller.
+public function updateSmartphone($data)
+{
+    return $this->update($data);
+}
+
 }

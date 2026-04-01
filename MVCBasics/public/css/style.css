@@ -1,0 +1,46 @@
+/* MVC Basics - Custom Styles */
+
+/* Sticky footer with flexbox */
+html { min-height: 100%; }
+
+/* Body padding voor fixed navbar */
+body {
+    padding-top: 70px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Wrapper voor sticky footer */
+.wrapper { flex: 1 0 auto; }
+
+/* Navbar styling */
+.navbar-brand { font-weight: bold; }
+
+.navbar-brand i { font-size: 1.5rem; }
+
+/* Footer styling */
+footer {
+    border-top: 1px solid #444;
+    flex-shrink: 0;
+}
+
+/* Table styling */
+.table th { background-color: #f8f9fa; }
+
+/* Form styling */
+.form-label { font-weight: 500; }
+
+/* Button spacing */
+.btn { margin-right: 5px; }
+
+/* Alert styling */
+.alert { margin-bottom: 0; }
+
+/* Link styling in homepage */
+.homepage-links a {
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.homepage-links a:hover { text-decoration: underline; }

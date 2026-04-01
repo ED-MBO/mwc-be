@@ -48,22 +48,75 @@ class HorlogesController extends BaseController
         $data = [
             'title'   => 'Nieuw horloge toevoegen',
             'display' => 'none',
-            'message' => ''
+            'message' => '',
+            'errors'  => []
         ];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST['merk']) ||
-                empty($_POST['model']) ||
-                empty($_POST['prijs']) ||
-                empty($_POST['materiaal']) ||
-                empty($_POST['gewicht']) ||
-                empty($_POST['releasedatum']) ||
-                empty($_POST['waterdichtheid']) ||
-                empty($_POST['type']) ||
-                empty($_POST['uniekkenmerk'])) {
+            $errors = [];
 
+            if (empty(trim($_POST['merk'] ?? ''))) {
+                $errors['merk'] = 'Voer een merk in';
+            } elseif (strlen($_POST['merk']) > 50) {
+                $errors['merk'] = 'Merk mag maximaal 50 tekens bevatten';
+            }
+
+            if (empty(trim($_POST['model'] ?? ''))) {
+                $errors['model'] = 'Voer een model in';
+            } elseif (strlen($_POST['model']) > 50) {
+                $errors['model'] = 'Model mag maximaal 50 tekens bevatten';
+            }
+
+            $prijsRaw = $_POST['prijs'] ?? '';
+            if ($prijsRaw === '') {
+                $errors['prijs'] = 'Voer een prijs in';
+            } elseif (!is_numeric($prijsRaw) || $prijsRaw < 0 || $prijsRaw > 999999) {
+                $errors['prijs'] = 'Voer een geldige prijs in (0 - 999999)';
+            }
+
+            if (empty(trim($_POST['materiaal'] ?? ''))) {
+                $errors['materiaal'] = 'Voer een materiaal in';
+            } elseif (strlen($_POST['materiaal']) > 25) {
+                $errors['materiaal'] = 'Materiaal mag maximaal 25 tekens bevatten';
+            }
+
+            $gewichtRaw = $_POST['gewicht'] ?? '';
+            if ($gewichtRaw === '') {
+                $errors['gewicht'] = 'Voer een gewicht in';
+            } elseif (!is_numeric($gewichtRaw) || $gewichtRaw < 0 || $gewichtRaw > 999.99) {
+                $errors['gewicht'] = 'Voer een geldig gewicht in (0 - 999,99)';
+            }
+
+            $releasedatumRaw = $_POST['releasedatum'] ?? '';
+            if ($releasedatumRaw === '') {
+                $errors['releasedatum'] = 'Voer een releasedatum in';
+            } elseif (!DateTime::createFromFormat('Y-m-d', $releasedatumRaw)) {
+                $errors['releasedatum'] = 'Voer een geldig datum in (jjjj-mm-dd)';
+            }
+
+            $waterdichtheidRaw = $_POST['waterdichtheid'] ?? '';
+            if ($waterdichtheidRaw === '') {
+                $errors['waterdichtheid'] = 'Voer een waterdichtheid in';
+            } elseif (!is_numeric($waterdichtheidRaw) || $waterdichtheidRaw < 0 || $waterdichtheidRaw > 32767) {
+                $errors['waterdichtheid'] = 'Voer een geldige waterdichtheid in (0 - 32767)';
+            }
+
+            if (empty(trim($_POST['type'] ?? ''))) {
+                $errors['type'] = 'Voer een type in';
+            } elseif (strlen($_POST['type']) > 25) {
+                $errors['type'] = 'Type mag maximaal 25 tekens bevatten';
+            }
+
+            if (empty(trim($_POST['uniekkenmerk'] ?? ''))) {
+                $errors['uniekkenmerk'] = 'Voer een uniek kenmerk in';
+            } elseif (strlen($_POST['uniekkenmerk']) > 100) {
+                $errors['uniekkenmerk'] = 'Uniek kenmerk mag maximaal 100 tekens bevatten';
+            }
+
+            if (!empty($errors)) {
                 $data['display'] = 'flex';
-                $data['message'] = 'Vul alle velden in';
+                $data['message'] = 'Controleer de ingevoerde gegevens';
+                $data['errors'] = $errors;
             } else {
                 $data['display'] = 'flex';
                 $data['message'] = 'De gegevens zijn opgeslagen';
@@ -71,6 +124,7 @@ class HorlogesController extends BaseController
                 $this->horlogeModel->create($_POST);
 
                 header('Refresh: 3; URL=' . URLROOT . '/HorlogesController/index');
+                return;
             }
         }
 
@@ -82,22 +136,75 @@ class HorlogesController extends BaseController
         $data = [
             'title'   => 'Wijzig horloge',
             'display' => 'none',
-            'message' => ''
+            'message' => '',
+            'errors'  => []
         ];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if (empty($_POST['merk']) ||
-                empty($_POST['model']) ||
-                empty($_POST['prijs']) ||
-                empty($_POST['materiaal']) ||
-                empty($_POST['gewicht']) ||
-                empty($_POST['releasedatum']) ||
-                empty($_POST['waterdichtheid']) ||
-                empty($_POST['type']) ||
-                empty($_POST['uniekkenmerk'])) {
+            $errors = [];
 
+            if (empty(trim($_POST['merk'] ?? ''))) {
+                $errors['merk'] = 'Voer een merk in';
+            } elseif (strlen($_POST['merk']) > 50) {
+                $errors['merk'] = 'Merk mag maximaal 50 tekens bevatten';
+            }
+
+            if (empty(trim($_POST['model'] ?? ''))) {
+                $errors['model'] = 'Voer een model in';
+            } elseif (strlen($_POST['model']) > 50) {
+                $errors['model'] = 'Model mag maximaal 50 tekens bevatten';
+            }
+
+            $prijsRaw = $_POST['prijs'] ?? '';
+            if ($prijsRaw === '') {
+                $errors['prijs'] = 'Voer een prijs in';
+            } elseif (!is_numeric($prijsRaw) || $prijsRaw < 0 || $prijsRaw > 999999) {
+                $errors['prijs'] = 'Voer een geldige prijs in (0 - 999999)';
+            }
+
+            if (empty(trim($_POST['materiaal'] ?? ''))) {
+                $errors['materiaal'] = 'Voer een materiaal in';
+            } elseif (strlen($_POST['materiaal']) > 25) {
+                $errors['materiaal'] = 'Materiaal mag maximaal 25 tekens bevatten';
+            }
+
+            $gewichtRaw = $_POST['gewicht'] ?? '';
+            if ($gewichtRaw === '') {
+                $errors['gewicht'] = 'Voer een gewicht in';
+            } elseif (!is_numeric($gewichtRaw) || $gewichtRaw < 0 || $gewichtRaw > 999.99) {
+                $errors['gewicht'] = 'Voer een geldig gewicht in (0 - 999,99)';
+            }
+
+            $releasedatumRaw = $_POST['releasedatum'] ?? '';
+            if ($releasedatumRaw === '') {
+                $errors['releasedatum'] = 'Voer een releasedatum in';
+            } elseif (!DateTime::createFromFormat('Y-m-d', $releasedatumRaw)) {
+                $errors['releasedatum'] = 'Voer een geldig datum in (jjjj-mm-dd)';
+            }
+
+            $waterdichtheidRaw = $_POST['waterdichtheid'] ?? '';
+            if ($waterdichtheidRaw === '') {
+                $errors['waterdichtheid'] = 'Voer een waterdichtheid in';
+            } elseif (!is_numeric($waterdichtheidRaw) || $waterdichtheidRaw < 0 || $waterdichtheidRaw > 32767) {
+                $errors['waterdichtheid'] = 'Voer een geldige waterdichtheid in (0 - 32767)';
+            }
+
+            if (empty(trim($_POST['type'] ?? ''))) {
+                $errors['type'] = 'Voer een type in';
+            } elseif (strlen($_POST['type']) > 25) {
+                $errors['type'] = 'Type mag maximaal 25 tekens bevatten';
+            }
+
+            if (empty(trim($_POST['uniekkenmerk'] ?? ''))) {
+                $errors['uniekkenmerk'] = 'Voer een uniek kenmerk in';
+            } elseif (strlen($_POST['uniekkenmerk']) > 100) {
+                $errors['uniekkenmerk'] = 'Uniek kenmerk mag maximaal 100 tekens bevatten';
+            }
+
+            if (!empty($errors)) {
                 $data['display'] = 'flex';
-                $data['message'] = 'Vul alle velden in';
+                $data['message'] = 'Controleer de ingevoerde gegevens';
+                $data['errors'] = $errors;
             } else {
                 $this->horlogeModel->update($_POST);
 
