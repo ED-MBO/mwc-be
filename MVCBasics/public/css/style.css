@@ -1,5 +1,15 @@
 /* MVC Basics - Custom Styles */
 
+:root {
+    --brand-primary: #14532d;
+    --brand-primary-hover: #166534;
+    --brand-secondary: #0f766e;
+    --surface-bg: #f0fdf4;
+    --surface-card: #ffffff;
+    --text-main: #1f2937;
+    --text-muted: #4b5563;
+}
+
 /* Sticky footer with flexbox */
 html { min-height: 100%; }
 
@@ -9,6 +19,8 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: var(--surface-bg);
+    color: var(--text-main);
 }
 
 /* Wrapper voor sticky footer */
@@ -19,20 +31,68 @@ body {
 
 .navbar-brand i { font-size: 1.5rem; }
 
+.navbar.bg-dark {
+    background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary)) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.nav-link { color: #e6fffb !important; }
+
+.nav-link:hover { color: #ffffff !important; }
+
 /* Footer styling */
 footer {
-    border-top: 1px solid #444;
+    border-top: 1px solid #bbf7d0;
+    background-color: #ecfdf5;
+    color: var(--text-muted);
     flex-shrink: 0;
 }
 
 /* Table styling */
-.table th { background-color: #f8f9fa; }
+.table {
+    background-color: var(--surface-card);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th {
+    background-color: #d1fae5;
+    color: #064e3b;
+}
 
 /* Form styling */
 .form-label { font-weight: 500; }
 
+.form-control:focus,
+.form-select:focus {
+    border-color: #34d399;
+    box-shadow: 0 0 0 0.2rem rgba(52, 211, 153, 0.25);
+}
+
 /* Button spacing */
 .btn { margin-right: 5px; }
+
+.btn-primary {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--brand-primary-hover);
+    border-color: var(--brand-primary-hover);
+}
+
+.btn-warning {
+    background-color: #f59e0b;
+    border-color: #f59e0b;
+    color: #1f2937;
+}
+
+.btn-danger {
+    background-color: #dc2626;
+    border-color: #dc2626;
+}
 
 /* Alert styling */
 .alert { margin-bottom: 0; }
@@ -41,6 +101,10 @@ footer {
 .homepage-links a {
     text-decoration: none;
     font-weight: 500;
+    color: var(--brand-secondary);
 }
 
-.homepage-links a:hover { text-decoration: underline; }
+.homepage-links a:hover {
+    text-decoration: underline;
+    color: var(--brand-primary);
+}
